@@ -9,7 +9,7 @@ import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 import { useNavigate } from "react-router";
 import { ResponseType } from "src/store/States/Helpers/response.types";
-import { fetchAllUsersSimple } from "src/store/States/User/axtion";
+import { fetchAllUsersSimple } from "src/store/States/User/action";
 import { IUserSimple } from "src/store/States/User/user.types";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';

@@ -5,6 +5,10 @@ export const fetchUsersBody = () => ({
   query: `{
     fetchUsers {
         _id
+        first_name
+        middle_name
+        last_name
+        gender
         role
         phone_number
         email

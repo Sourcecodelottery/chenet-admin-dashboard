@@ -10,6 +10,9 @@ import { reducer as CombinationUserReducer, stateName as combination_user } from
 import { reducer as CompanyReducer, stateName as company } from './States/Company/'
 import { reducer as ReviewReducer, stateName as review } from './States/Review/'
 import { reducer as ConnectionReducer, stateName as connection } from './States/Connection/'
+import { reducer as PromoCodeReducer, stateName as promo_code } from './States/PromoCode/'
+import { reducer as ReferalReducer, stateName as referal } from './States/Referal/'
+import { reducer as InGameRewardReducer, stateName as in_game_reward } from './States/InGameReward/'
 
 export default combineReducers({
   [user]: UserReducer,
@@ -22,5 +25,8 @@ export default combineReducers({
   [combination_user]: CombinationUserReducer,
   [company]: CompanyReducer,
   [review]: ReviewReducer,
-  [connection]: ConnectionReducer
+  [connection]: ConnectionReducer,
+  [promo_code]: PromoCodeReducer,
+  [referal]: ReferalReducer,
+  [in_game_reward]: InGameRewardReducer
 });

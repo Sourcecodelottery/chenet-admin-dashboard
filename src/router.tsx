@@ -34,6 +34,10 @@ const NewsHomePage = Loader(lazy(() => import('src/pages/News/')))
 const CreateNews = Loader(lazy(() => import('src/pages/News/CreateNews/')))
 const NotificationHomePage = Loader(lazy(() => import('src/pages/Notification/')))
 const CreateNotification = Loader(lazy(() => import('src/pages/Notification/CreateNotification/')))
+const PromoCodeHomePage = Loader(lazy(() => import('src/pages/PromoCode/')))
+const CreatePromoCode = Loader(lazy(() => import('src/pages/PromoCode/CreatePromoCode/')))
+const ReferalHomePage = Loader(lazy(() => import('src/pages/Referal/')))
+const InGameRewardHomePage = Loader(lazy(() => import('src/pages/InGameReward/')))
 const SettingsPage = Loader(lazy(() => import('src/pages/Settings/')))
 
 // Survey
@@ -205,6 +209,22 @@ const routes: PartialRouteObject[] = [
       {
         path: customRoutes.ADMIN.CREATE_NOTIFICATION.__PATH,
         element: <CreateNotification />
+      },
+      {
+        path: customRoutes.ADMIN.PROMO_CODE.__PATH,
+        element: <PromoCodeHomePage />
+      },
+      {
+        path: customRoutes.ADMIN.CREATE_PROMO_CODE.__PATH,
+        element: <CreatePromoCode />
+      },
+      {
+        path: customRoutes.ADMIN.REFERAL.__PATH,
+        element: <ReferalHomePage />
+      },
+      {
+        path: customRoutes.ADMIN.IN_GAME_REWARD.__PATH,
+        element: <InGameRewardHomePage />
       },
       {
         path: customRoutes.ADMIN.SETTINGS.__PATH,

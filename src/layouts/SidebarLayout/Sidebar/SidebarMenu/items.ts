@@ -15,6 +15,7 @@ import RedeemTwoToneIcon from '@mui/icons-material/RedeemTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import TrafficTwoToneIcon from '@mui/icons-material/TrafficTwoTone';
 import VerifiedUserTwoToneIcon from '@mui/icons-material/VerifiedUserTwoTone';
+import ArchiveOutlined from '@mui/icons-material/ArchiveOutlined'
 import routes from 'src/constants/routes'
 
 export interface MenuItem {
@@ -88,6 +89,21 @@ const menuItems: MenuItems[] = [
         name: 'Notification Homepage',
         icon: BallotTwoToneIcon,
         link: routes.ADMIN.NOTIFICATION.ROUTE
+      },
+      {
+        name: 'Promo Code Homepage',
+        icon: HowToVoteTwoToneIcon,
+        link: routes.ADMIN.PROMO_CODE.ROUTE
+      },
+      {
+        name: 'Referal Homepage',
+        icon: ArchiveOutlined,
+        link: routes.ADMIN.REFERAL.ROUTE
+      },
+      {
+        name: 'In Game Rewards Homepage',
+        icon: LocalPharmacyTwoToneIcon,
+        link: routes.ADMIN.IN_GAME_REWARD.ROUTE
       },
       {
         name: 'Settings',

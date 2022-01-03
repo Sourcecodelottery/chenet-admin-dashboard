@@ -27,8 +27,6 @@ import routes from 'src/constants/routes'
 
 export function CreateNews(props) {
   const gender = ["MALE", "FEMALE"];
-
-
   const navigate = useNavigate();
 
   const [isFailed, setIsFailed] = useState(false);

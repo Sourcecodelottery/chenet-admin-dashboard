@@ -50,6 +50,22 @@ export default {
       __PATH: "message/create",
       ROUTE: "/admin/message/create",
     },
+    PROMO_CODE: {
+      __PATH: "promo-code/homepage",
+      ROUTE: "/admin/promo-code/homepage",
+    },
+    CREATE_PROMO_CODE: {
+      __PATH: "promo-code/create",
+      ROUTE: "/admin/promo-code/create",
+    },
+    REFERAL: {
+      __PATH: "referal/homepage",
+      ROUTE: "/admin/referal/homepage",
+    },
+    IN_GAME_REWARD: {
+      __PATH: "in-game-reward/homepage",
+      ROUTE: "/admin/in-game-reward/homepage",
+    },
     SETTINGS: {
       __PATH: "setting/create",
       ROUTE: "/admin/setting/create",

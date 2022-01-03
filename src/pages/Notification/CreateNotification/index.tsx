@@ -1,4 +1,7 @@
-import { Button, CircularProgress, Container, Box, Grid, TextField, Theme, useTheme, CardMedia, Card } from "@mui/material";
+import {
+  Button, CircularProgress, Container, Box, Grid, TextField, Theme, useTheme, CardMedia, Card,
+  RadioGroup, FormControlLabel, Radio
+} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -9,13 +12,15 @@ import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 import { useNavigate } from "react-router";
 import { ResponseType } from "src/store/States/Helpers/response.types";
-import { fetchAllUsersSimple } from "src/store/States/User/axtion";
+import { fetchAllUsersSimple } from "src/store/States/User/action";
 import { IUserSimple } from "src/store/States/User/user.types";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { SelectChangeEvent } from '@mui/material/Select';
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated';
 import Chip from '@mui/material/Chip';
 import React from "react";
 import PropTypes from 'prop-types';
@@ -24,6 +29,7 @@ import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import routes from 'src/constants/routes'
 import FormData from 'form-data'
 import Axios from 'axios'
+import endPoints from 'src/constants/endPoints'
 
 export function CreateNotification(_props) {
   const navigate = useNavigate();
@@ -40,13 +46,56 @@ export function CreateNotification(_props) {
   const [titleError, setTitleError] = useState(null);
   const [descriptionError, setDescriptionError] = useState(null);
   const [targetedUsersError, setTargetedUserError] = useState(null);
+  const [reset, setReset] = useState(false);
 
   useEffect(() => {
     fetchAllUsersSimple((_error, data) => {
-      console.log("LOG", data)
       setUsers(data)
     })
   }, []);
+
+  const [selectAll, setSelectAll] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [gender, setGender] = useState(null);
+
+  useEffect(() => {
+    let data = userOptions;
+    let isFiltered: boolean = false;
+    if (reset) {
+      data = [];
+      isFiltered = true;
+    }
+    if (selectAll) {
+      setSelectedUsers(data);
+      isFiltered = true;
+    }
+    if (gender === 'male') {
+      data = data.filter(user => user.gender === 'MALE');
+      isFiltered = true;
+    } else if (gender === "female") {
+      data = data.filter(user => user.gender === 'FEMALE');
+      isFiltered = true;
+    }
+
+    if (isFiltered) {
+      setSelectedUsers(data);
+    }
+  }, [gender, selectAll, reset]);
+
+  interface IUserOption {
+    readonly value: string;
+    readonly label: string;
+    readonly gender: string;
+  }
+
+  const userOptions: IUserOption[] = users.map(user =>
+  ({
+    value: user._id,
+    label: user.first_name + ' ' + user.last_name,
+    gender: user.gender !== null ? user.gender : null,
+  }));
+
+  const animatedComponents = makeAnimated();
 
   const createNotificationHandler = async (input: INotificationInput) => {
     setIsLoading(true)
@@ -89,14 +138,7 @@ export function CreateNotification(_props) {
   } = useForm<INotificationInput>();
 
   const createNotificationHandle = () => {
-    console.log("ll", images)
-    console.log("ll", description)
-    console.log("ll", title)
-    console.log("ll", images)
-    console.log("ll", targetedUsers)
     const _formData = new FormData()
-    // images.forEach((image, idx) => _formData.append(`notification:${idx}`, image))
-    console.log("kk", images.length)
     for (let i = 0; i < images.length; i++) {
       const image = images[i];
       _formData.append(`notification:${i}`, image)
@@ -106,7 +148,7 @@ export function CreateNotification(_props) {
     }
 
     let reqOptions: any = {
-      url: "http://localhost:3009/upload",
+      url: endPoints.uploadURL,
       method: "POST",
       headers: headersList,
       data: _formData,
@@ -141,7 +183,6 @@ export function CreateNotification(_props) {
       },
     },
   };
-
 
   function getStyles(name: string, personName: readonly string[], theme: Theme) {
     return {
@@ -194,40 +235,30 @@ export function CreateNotification(_props) {
       rows={4}
     />
     <FormControl sx={{ width: "60%", mt: 4 }}>
-      <InputLabel id="targeted-users">Targeted Users</InputLabel>
       <Select
-        error={(targetedUsersError || createNotificationErrors.targeted_users) ? true : false}
-        // {...registerCreateNotification("targeted_users", { required: false })}
-        labelId="targeted-users"
-        id="demo-multiple-chip"
-        multiple
-        value={targetedUsers}
-        onChange={handleGenderSelectionChange}
-        input={<OutlinedInput id="select-multiple-chip" label="targeted users" />}
-        renderValue={(selected) => (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-            {selected.map((value) => (
-              <Chip key={value} label={value} />
-            ))}
-          </Box>
-        )}
-        MenuProps={MenuProps}
+        closeMenuOnSelect={false}
+        value={selectedUsers}
+        components={animatedComponents}
+        options={userOptions}
+        isMulti
+        onChange={(e) => { setSelectedUsers(e) }}
+      />
+    </FormControl><br />
+    <FormControl component="fieldset">
+      <RadioGroup row aria-label="gender"
+        value={gender ?? ""}
+        name="row-radio-buttons-group"
+        onChange={(e) => {
+          setGender(e.target.value);
+        }}
       >
-        {users.map((value) => (
-          <MenuItem
-            key={value._id}
-            value={value._id}
-            style={getStyles(value, targetedUsers, theme)}
-          >
-            {value.email}
-          </MenuItem>
-        ))}
-      </Select>
+        <FormControlLabel value="female" control={<Radio />} label="Female" />
+        <FormControlLabel value="male" control={<Radio />} label="Male" />
+      </RadioGroup>
     </FormControl>
     <Box sx={{ display: 'block', marginTop: 4 }}>
       <Input
         onChange={({ currentTarget: { files } }) => {
-          console.log("LOO", files)
           const payload = files as unknown as any[]
           setImages(payload)
         }}
@@ -245,7 +276,7 @@ export function CreateNotification(_props) {
     </Box>
     <Box sx={{ display: 'block' }}>
       <Button sx={{ mt: 4, px: 5 }} variant="contained" color="primary" type="button" onClick={() => createNotificationHandle()}>
-        {isLoading ? <CircularProgress style={{ color: "white" }} /> : "create"}
+        {isLoading ? <CircularProgress style={{ color: "white" }} /> : "Create"}
       </Button>
     </Box>
   </form>
