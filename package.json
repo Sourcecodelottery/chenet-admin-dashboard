@@ -51,7 +51,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "serve": "ls ."
+    "serve": "ls node_modules"
   },
   "eslintConfig": {
     "extends": [
