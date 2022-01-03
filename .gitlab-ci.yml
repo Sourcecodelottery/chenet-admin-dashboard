@@ -31,3 +31,11 @@ test_db:
   script:
     - npm install
     - node ./specs/start.js ./specs/db-postgres.spec.js
+
+heroku:
+ stage: deploy
+ only:
+ - master
+ script:
+ - git remote add heroku https://heroku:0c20e56a-e3c2-4b2c-adaa-05080d5ce598@git.heroku.com/chenet.git
+ - git push -f heroku dev

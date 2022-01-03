@@ -93,6 +93,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "node-sass": "6.0.1",
     "prettier": "2.4.1",
+    "serve": "^13.0.2",
     "typescript": "4.4.4"
   }
 }
